@@ -1,6 +1,19 @@
 {
+  "name": "mnemonicsafe",
+  "version": "1.0.0",
+  "description": "A secure backup solution for BIP-39 mnemonics inspired by SLIP-39 using Shamir's Secret Sharing and AES-256-GCM encryption.",
+  "main": "slip39.js",
   "dependencies": {
     "bip39": "^3.1.0",
     "shamirs-secret-sharing": "^2.0.0"
-  }
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "MIT"
 }
