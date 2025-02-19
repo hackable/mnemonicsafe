@@ -1,6 +1,6 @@
 # MnemonicSafe
 
-[![CI](https://github.com/hackable/mnemonicsafe/actions/workflows/ci.yml/badge.svg)](https://github.com/hackable/mnemonicsafe/actions/workflows/ci.yml)
+![Node.js CI](https://github.com/hackable/mnemonicsafe/workflows/Node.js%20CI/badge.svg)
 
 MnemonicSafe is a secure backup solution for cryptocurrency mnemonics. Inspired by the ideas behind SLIP-39, MnemonicSafe splits a BIP-39 mnemonic into multiple shares using Shamir's Secret Sharing (SSS) and then encrypts each share using AES-256-GCM with unique passwords. This approach requires a threshold number of shares to reconstruct the original mnemonic, thereby enhancing security and resilience against loss or compromise.
 
