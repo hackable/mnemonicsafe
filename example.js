@@ -3,7 +3,7 @@ const {
   bip39ToSlip39,
   decryptShares,
   reconstructBip39Mnemonic,
-} = require("./slip39");
+} = require("./index");
 
 // Example BIP-39 mnemonic (for demonstration purposes only)
 // **WARNING:** Never expose real mnemonics. Use this only for testing.

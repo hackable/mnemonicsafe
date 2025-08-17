@@ -1,6 +1,6 @@
 // test/test.js
 const { expect } = require('chai');
-const { bip39ToSlip39, decryptShares, reconstructBip39Mnemonic } = require('../slip39');
+const { bip39ToSlip39, decryptShares, reconstructBip39Mnemonic } = require('..');
 
 // Example BIP-39 mnemonic (for testing purposes only)
 const originalMnemonic = "legal winner thank year wave sausage worth useful legal winner thank yellow";

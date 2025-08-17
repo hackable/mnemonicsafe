@@ -1,8 +1,8 @@
 {
   "name": "mnemonicsafe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A secure backup solution for BIP-39 mnemonics inspired by SLIP-39 using Shamir's Secret Sharing and AES-256-GCM encryption.",
-  "main": "slip39.js",
+  "main": "index.js",
   "dependencies": {
     "bip39": "^3.1.0",
     "shamirs-secret-sharing": "^2.0.0"
