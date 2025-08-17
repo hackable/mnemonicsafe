@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MnemonicSafe Browser Test</title>
+</head>
+<body>
+    <h1>MnemonicSafe Browser Test</h1>
+    <div id="output"></div>
+    
+    <script src="../dist/index.js"></script>
+    <script>
+        function log(message) {
+            const output = document.getElementById('output');
+            output.innerHTML += '<p>' + message + '</p>';
+            console.log(message);
+        }
+        
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Test that MnemonicSafe is available globally
+                log('✓ MnemonicSafe is available: ' + typeof MnemonicSafe);
+                log('✓ Available methods: ' + Object.keys(MnemonicSafe).join(', '));
+                
+                // Test a simple BIP-39 to SLIP-39 conversion
+                const testMnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
+                const passwords = ["password1", "password2", "password3"];
+                
+                log('Starting BIP-39 to SLIP-39 conversion test...');
+                const shares = MnemonicSafe.bip39ToSlip39(testMnemonic, 3, 2, passwords);
+                log('✓ Successfully created ' + shares.length + ' encrypted shares');
+                
+                // Test reconstruction
+                log('Testing share decryption and reconstruction...');
+                const decryptedShares = MnemonicSafe.decryptShares([shares[0], shares[1]], [passwords[0], passwords[1]]);
+                const reconstructed = MnemonicSafe.reconstructBip39Mnemonic(decryptedShares);
+                
+                if (reconstructed === testMnemonic) {
+                    log('✓ Successfully reconstructed original mnemonic');
+                    log('✓ ALL TESTS PASSED! Browser compatibility confirmed.');
+                    log('✓ The library is now browser-compatible via browserify.');
+                } else {
+                    log('✗ Reconstruction failed - mnemonics don\'t match');
+                    log('Expected: ' + testMnemonic);
+                    log('Got: ' + reconstructed);
+                }
+                
+            } catch (error) {
+                log('✗ Error: ' + error.message);
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

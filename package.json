@@ -3,16 +3,47 @@
   "version": "1.0.1",
   "description": "A secure backup solution for BIP-39 mnemonics inspired by SLIP-39 using Shamir's Secret Sharing and AES-256-GCM encryption.",
   "main": "index.js",
+  "browser": "dist/index.js",
+  "exports": {
+    ".": {
+      "browser": "./dist/index.js",
+      "node": "./index.js",
+      "default": "./index.js"
+    }
+  },
   "dependencies": {
     "bip39": "^3.1.0",
     "shamirs-secret-sharing": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.1",
+    "buffer": "^6.0.3",
     "chai": "^5.2.0",
-    "mocha": "^11.1.0"
+    "crypto-browserify": "^3.12.1",
+    "crypto-js": "^4.2.0",
+    "events": "^3.3.0",
+    "mocha": "^11.1.0",
+    "process": "^0.11.10",
+    "util": "^0.12.5"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build-browser": "browserify index.js --standalone MnemonicSafe -t [ babelify --presets [ @babel/preset-env ] ] --insert-globals --debug -o dist/index.js"
+  },
+  "browser": {
+    "crypto": "crypto-browserify",
+    "util": "util",
+    "process": "process",
+    "events": "events",
+    "shamirs-secret-sharing": "shamirs-secret-sharing/module.cjs"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
   "author": "",
   "license": "MIT"

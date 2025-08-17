@@ -3,6 +3,11 @@ const bip39 = require("bip39");
 const crypto = require("crypto");
 const sss = require("shamirs-secret-sharing");
 
+// Use crypto polyfill packages
+if (typeof window !== 'undefined' && !window.crypto) {
+  window.crypto = require('crypto-browserify');
+}
+
 /**
  * Converts a BIP-39 mnemonic phrase to entropy.
  * @param {string} bip39Mnemonic - A valid BIP-39 mnemonic phrase.
@@ -52,6 +57,29 @@ function createShareChecksum(share, secretId, shareIndex) {
 }
 
 /**
+ * Browser-compatible timing-safe comparison function.
+ * @param {Buffer} a - First buffer to compare.
+ * @param {Buffer} b - Second buffer to compare.
+ * @returns {boolean} - True if buffers are equal.
+ */
+function timingSafeEqual(a, b) {
+  if (crypto.timingSafeEqual) {
+    return crypto.timingSafeEqual(a, b);
+  }
+  
+  // Browser fallback - constant time comparison
+  if (a.length !== b.length) {
+    return false;
+  }
+  
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a[i] ^ b[i];
+  }
+  return result === 0;
+}
+
+/**
  * Verifies the integrity of a share.
  * @param {Buffer} share - The raw share data.
  * @param {Buffer} secretId - The expected secret identifier.
@@ -61,7 +89,7 @@ function createShareChecksum(share, secretId, shareIndex) {
  */
 function verifyShareIntegrity(share, secretId, shareIndex, expectedChecksum) {
   const computedChecksum = createShareChecksum(share, secretId, shareIndex);
-  return crypto.timingSafeEqual(computedChecksum, expectedChecksum);
+  return timingSafeEqual(computedChecksum, expectedChecksum);
 }
 
 /**
