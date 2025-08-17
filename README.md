@@ -1,6 +1,8 @@
 # MnemonicSafe
 
 ![Node.js CI](https://github.com/hackable/mnemonicsafe/workflows/Node.js%20CI/badge.svg)
+[![npm version](https://badge.fury.io/js/mnemonicsafe.svg)](https://badge.fury.io/js/mnemonicsafe)
+[![npm downloads](https://img.shields.io/npm/dm/mnemonicsafe.svg)](https://www.npmjs.com/package/mnemonicsafe)
 
 MnemonicSafe is a secure backup solution for cryptocurrency mnemonics. Inspired by the ideas behind SLIP-39, MnemonicSafe splits a BIP-39 mnemonic into multiple shares using Shamir's Secret Sharing (SSS) and then encrypts each share using AES-256-GCM with unique passwords. This approach requires a threshold number of shares to reconstruct the original mnemonic, thereby enhancing security and resilience against loss or compromise.
 
@@ -35,13 +37,13 @@ While our code is sometimes called "SLIP-39" in this repository, note that SLIP-
 
 ## Installation
 
-1. **Clone the Repository:**
+### Option 1: Install from npm (Recommended)
 
-   ```bash
-   git clone https://github.com/your-username/mnemonicsafe.git
-   cd mnemonicsafe
+```bash
+npm install mnemonicsafe
+```
 
-## Installation
+### Option 2: Clone from Source
 
 1. **Clone the Repository:**
 
@@ -50,14 +52,63 @@ While our code is sometimes called "SLIP-39" in this repository, note that SLIP-
    cd mnemonicsafe
    ```
 
- 2.	Install Dependencies:
-Make sure you have Node.js (version 23) installed, then run:
+2. **Install Dependencies:**
+
+   Make sure you have Node.js installed, then run:
    ```bash
-    npm install
+   npm install
    ```
 
 
 ## Usage
+
+### Basic Usage (npm package)
+
+```javascript
+const MnemonicSafe = require('mnemonicsafe');
+
+// Your BIP-39 mnemonic
+const mnemonic = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+
+// Configuration
+const totalShares = 5;
+const threshold = 3;
+const passwords = ['password1!', 'password2@', 'password3#', 'password4$', 'password5%'];
+
+// Split the mnemonic into encrypted shares
+const encryptedShares = MnemonicSafe.splitMnemonic(mnemonic, totalShares, threshold, passwords);
+console.log('Encrypted shares:', encryptedShares);
+
+// Reconstruct the mnemonic using threshold number of shares
+const selectedShares = encryptedShares.slice(0, threshold);
+const selectedPasswords = passwords.slice(0, threshold);
+const reconstructed = MnemonicSafe.reconstructMnemonic(selectedShares, selectedPasswords);
+console.log('Reconstructed mnemonic:', reconstructed);
+```
+
+### Browser Usage
+
+The package is also available for browser environments. You can include it in your HTML:
+
+```html
+<script src="node_modules/mnemonicsafe/dist/index.js"></script>
+<script>
+  // MnemonicSafe is now available as a global variable
+  const mnemonic = 'legal winner thank year wave sausage worth useful legal winner thank yellow';
+  const encryptedShares = MnemonicSafe.splitMnemonic(mnemonic, 5, 3, ['pass1', 'pass2', 'pass3', 'pass4', 'pass5']);
+  console.log('Encrypted shares:', encryptedShares);
+</script>
+```
+
+Or using a module bundler like webpack or browserify:
+
+```javascript
+import MnemonicSafe from 'mnemonicsafe';
+// or
+const MnemonicSafe = require('mnemonicsafe');
+```
+
+### Development Usage (cloned repository)
 
 ### Splitting a Mnemonic into Encrypted Shares
 
